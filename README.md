@@ -1,104 +1,92 @@
-# NF18-projet
+# 📚 Gestion d’une Bibliothèque 
 
-Projet de groupe pour l'UV NF18.
+Projet réalisé dans le cadre de l’UV **NF18 – Bases de Données**.  
+Travail en groupe réalisé par : **Russell Rojas**, Yanis Djahnit, Zaher Bakhache et Eliott Thomann.
 
-Réalisé au sein du TD1 par Russell Rojas, Yanis Djahnit, Zaher Bakhache et Eliott Thomann.
+L’objectif du projet était de concevoir une application complète de gestion d’une médiathèque, incluant la modélisation UML, la transformation **UML → MLD**, et le développement d’une application Python connectée à une base de données relationnelle.
 
-## Sujet : Gestion d'une bibliothèque
+-------------------------------------------------------------
 
-[Lien vers le sujet](https://moodle.utc.fr/pluginfile.php/246372/mod_resource/content/2/co/biblio.html)
+## 🎯 Objectifs du projet
 
-## Schéma UML
+- Concevoir un schéma UML complet et le transformer en **Modèle Logique de Données (MLD)**.  
+- Construire une base de données cohérente : ressources, prêts, adhérents, suspensions, contributeurs…  
+- Développer une application Python gérant les documents, adhérents, emprunts et statistiques.  
+- Implémenter les contraintes métier : disponibilité, retards, suspensions, limites de prêts, etc.
 
-Le code pour un schéma en plantUML est accessible dans [UML.puml](./UML.puml).
-![PlantUML]( ./UML.png "Schéma UML")
+-------------------------------------------------------------
 
-## Pour lancer le code chez vous :
-- clonez le repo sur votre machine
-- dans un terminal, téléchargez les librairies python requises avec 
-    ```pip install -r requirements.txt```
-- pour le Rendu 4, créez un fichier config.py tel que décrit dans la section suivante et placez le dans le dossier 'Rendu 4'
+## 🏗 Modélisation : UML → MLD
 
-## fichier config.py :
-Le fichier config.py contient vos identifiants et permet de vous connecter à la base de donnée.
-Il est importé et donc requis par notre application python. POue executer le code il faudra le créer, le placer au bon endroit et le completer avec vos identifiants.
-Son format est le suivant :
+Le dépôt contient :
+- `UML.puml` — schéma UML en PlantUML  
+- `UML.png` — version image du diagramme  
 
+La transformation UML → MLD repose sur :
+- un **héritage par référence** pour Livre, Film, OeuvreMusicale  
+- des **tables d’association** pour Auteur, Acteur, Compositeur, Interprète…  
+- des **vues SQL** pour représenter les sous-types  
+- des **contraintes métier** gérées au niveau applicatif Python  
+
+-------------------------------------------------------------
+
+## ⚙ Installation
+```bash
+Cloner le dépôt :  
+   git clone https://github.com/russellrojas/NF18-projet.git  
+   cd NF18-projet  
+
+Installer les dépendances Python :  
+   pip install -r requirements.txt  
+
+Créer un fichier `config.py` dans *Rendu 4* :  
+   HOST = "XXX.X.X.X"  
+   USER = "your_user"  
+   PASSWORD = "your_password"  
+   DATABASE = "your_data_base"  
 ```
-HOST = "tuxa.sme.utc"
+-------------------------------------------------------------
 
-USER = ""
+## 🧩 Fonctionnalités principales
 
-PASSWORD = ""
+### 👥 Gestion des adhérents
+- Ajout, modification, suppression  
+- Suspension, blacklist  
+- Consultation du profil  
+- Historique et emprunts en cours  
 
-DATABASE = ""
-```
+### 📘 Gestion des documents
+- Ajout et modification de ressources  
+- Ajout / suppression d’exemplaires  
+- Mise à jour de l’état d’un exemplaire  
+- Recherche de documents  
 
-## L'Application
+### 📦 Gestion des emprunts
+- Enregistrement d’un emprunt  
+- Vérification des suspensions  
+- Retour et détection des retards  
+- Génération de suspensions automatisée  
+- Liste des emprunts en cours et en retard  
 
-**Infos importantes** :
+### 📊 Statistiques
+- Nombre total d’emprunts  
+- Top 5 des ressources les plus empruntées  
+- Suggestions personnalisées  
+- Graphiques générés automatiquement  
 
-Les adhérents sont actifs par défaut, pour marquer un adhérent comme inactif il faut aller dans "modifier adhérent" dans le menu de gestion des adhérents.
-Les adhérents n'empruntent pas directement dans l'appli, les emprunts ne sont gérés que par le personnel.
-Un emprunt se fait à partir de l'ID d'un adhérent, on considère que les adhérents ont une carte d'adhérent sur laquelle le n° est inscrit.
+-------------------------------------------------------------
 
-### Bilan sur les besoins :
+## 📝 Remarque
 
-- Faciliter aux adhérents la recherche de documents et la gestion de leurs emprunts.
-=> Les adhérents ont accès au catalogue et peuvent visualiser leurs emprunts en cours et passés.
+Projet réalisé **en 2024** dans le cadre universitaire, puis **révisé et adapté en 2025** pour être intégré à mon GitHub.
 
-- Faciliter la gestion des ressources documentaires : ajouter des documents, modifier leur description, ajouter des exemplaires d'un document, etc.
-=> Le personnel peut ajouter, supprimer ou modifier les documents et les exemplaires. 
+-------------------------------------------------------------
 
-- Faciliter au personnel la gestion des prêts, des retards et des réservation.
-=> Le personnel peut ajouter un prêt, marquer un prêt comme validé, visualiser les emprunts en retards (à implémenter). Les réservations ne sont pas gérés car non mentionnées dans la spécification.
+## 👨‍💻 Auteurs
 
-- Faciliter la gestion des utilisateurs et de leurs données.
-=> Le personnel peut ajouter, modifier et supprimer les comptes des adhérents
+- **Russell Rojas**  
+- Yanis Djahnit  
+- Zaher Bakhache  
+- Eliott Thomann  
 
-- Établir des statistiques sur les documents empruntés par les adhérents, cela permettra par exemple d'établir la liste des documents populaires, mais aussi d'étudier le profil des adhérents pour pouvoir leur suggérer des documents.
-=> Page de statistique pour voir les emprunts de chaque adhérent, avec graphique.
-
-## À implémenter dans l'appli python :
-
-### Interfaces :
-
-- Personnel :
-    - [x] Gestion des emprunts et retards : 
-        - [x] Enregistrer un nouvel emprunt
-        - [x] Ajouter vérification des suspensions au moment de l'emprunt
-        - [x] Marquer un emprunt comme rendu
-        - [x] Proposer une suspension si rendu en retard
-        - [x] Lister tous les emprunts en cours
-        - [x] Lister les emprunts en retard
-    - [x] Gestion des adherents:
-        - [x] Ajouter un adhérent
-        - [x] Modifier un adhérent
-        - [x] Supprimer un adhérent
-        - [x] Suspendre un adhérenet
-        - [x] Blacklister un adhérent
-        - [x] Afficher tous les adhérents
-        - [x] Afficher les adhérents blacklistés
-        - [x] Afficher les adhérents suspendus
-        - [x] Consulter les informations d'un adhérent
-    - [x] Interface de gestion des documents : ajouter des documents, modifier leur description, ajouter des exemplaires d'un document, etc.
-        - [x] Rechercher un document ?
-        - [x] Afficher tous les exemplaires d'un document
-        - [x] Supprimer un exemplaire
-        - [x] Modifier l'etat d'un exemplaire
-    - [x] Interface de statistique sur les emprunts : lister tous les documents empruntés, le nombre d'emprunts...
-        - [x] Générer un graphique pour les docuemnts empruntés 
-        - [x] Affciher le nombre total d'emprunts
-        - [x] Afficher les 5 ressources les plus populaires
-        - [x] Suggérer des ressources en fonctions de ses emprunts 
-
-
-- Adhérents :
-    - [x] Voir ses emprunts en cours
-    - [x] Voir son historique d'emprunt
-    - [x] rechercher un document disponible dans le catalogue par categorie
-
-- [x] Vérifier que tous les checks mentionnés dans le MLD sont bien vérifiés
-- [x] Implémenter un N maximum d'emprunts à la fois par adhérent.
-- [ ] Ajouter des vérification des entrées et de la gestion d'erreur.
-    => implémenté partiellement mais on va se contenter de ça
+-------------------------------------------------------------
