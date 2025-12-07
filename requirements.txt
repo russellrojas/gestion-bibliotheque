@@ -1,0 +1,7 @@
+# Dépendances principales
+python-dotenv>=1.0.0
+matplotlib>=3.7.0  # Pour graphiques
+
+# Développement
+pytest>=7.0.0
+black>=23.0.0

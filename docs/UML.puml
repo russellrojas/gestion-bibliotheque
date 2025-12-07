@@ -1,0 +1,114 @@
+@startuml
+' Définition des classes principales
+
+class Ressource {
+    - codeRessource: String
+    - titre: String
+    - dateApparition: Date
+    - editeur: String
+    - genre: String
+    - codeClassification: String
+}
+
+class Exemplaire {
+    - etat: Etat
+}
+
+enum Etat {
+    - neuf
+    - bon
+    - abime
+    - perdu
+}
+
+enum Statut {
+    - en cours
+    - rendu
+}
+
+class Contributeur {
+    - nom: String
+    - prenom: String
+    - dateNaissance: Date
+    - nationalite: String
+}
+
+class Livre extends Ressource {
+    - isbn: String
+    - resume: String
+    - langue: String
+}
+
+class Film extends Ressource {
+    - longueur: Int
+    - langue: String
+    - synopsis: String
+}
+
+class OeuvreMusicale extends Ressource {
+    - longueur: Int
+}
+
+class Adherent {
+    - nom: String
+    - prenom: String
+    - dateNaissance: Date
+    - adresse: String
+    - email: String
+    - numeroTel: String
+    - adherentActuel: Boolean
+    - blacklister: Boolean
+}
+
+class Personnel {
+    - nom: String
+    - prenom: String
+    - adresse: String
+    - email: String
+    
+}
+
+class Pret {
+    - datePret: Date
+    - dateRendu: Date
+    - statut: Statut
+}
+
+class Suspension{
+    - dateSuspension: Date
+    - cause: String
+    - dureeSuspension: Int
+}
+
+class CompteUtilisateur {
+    - login: String
+    - motDePasse: String
+    - rôle : Rôle
+}
+enum Rôle{
+   - administrateur 
+   - adhérent
+}
+
+' Relations entre les classes
+
+Ressource "1" -- "*" Exemplaire : possédée
+
+
+Adherent "1" -- "0..*" Pret : fait
+Pret "0..1" -- "1" Exemplaire : correspond
+
+Adherent "1" -- "0..1" Suspension: a
+Adherent "1" -- "1" CompteUtilisateur : possède 
+
+Personnel "1" -- "1" CompteUtilisateur : possède 
+
+
+
+' Spécificités pour les contributeurs
+Livre "*" -- "*" Contributeur : aPourAuteur
+OeuvreMusicale "*" -- "*" Contributeur : aPourCompositeur
+OeuvreMusicale "*" -- "*" Contributeur : aPourInterprete
+Film "*" -- "*" Contributeur : aPourRealisateur
+Film "*" -- "*" Contributeur : aPourActeur
+@enduml
